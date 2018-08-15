@@ -1,6 +1,7 @@
 package StepDefinitions;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,9 +26,10 @@ public class SearchFunctionality extends SeleniumFunctions{
 	@When("^I enter \"([^\"]*)\" in Search$")
 	public void i_enter_in_Search(String arg1) {
 		driver.findElement(By.xpath("//*[@id=\"lst-ib\"]")).sendKeys(arg1);
-		driver.findElement(By.xpath("//*[@id=\"tsf\"]/div[2]/div[3]/center/input[1]")).click();
+		driver.findElement(By.xpath("//*[@id=\"lst-ib\"]")).submit();
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "When");
+		
 	}
 	
 	@Then("^search results should be displayed$")
@@ -53,4 +55,5 @@ public class SearchFunctionality extends SeleniumFunctions{
 	public void exit_the_browser() {
 		driver.quit();
 	}
+	
 }
