@@ -14,8 +14,11 @@ import cucumber.api.java.Before;
  * @author irali
  */
 public class Hooks {
+	public static Scenario scenario;
+	
 	@Before
 	public void beforeScenario(Scenario scenario){
+		this.scenario = scenario;
 		String scenarioName = scenario.getName();
 		//we will need only test case number so getting only number
 		String testCaseId = getTestCase(scenarioName);

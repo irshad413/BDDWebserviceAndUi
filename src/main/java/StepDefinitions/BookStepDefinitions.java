@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -22,8 +24,10 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import com.jayway.restassured.path.xml.XmlPath;
 
-public class BookStepDefinitions {
+import Utils.Config;
 
+public class BookStepDefinitions {
+	private Config config = Config.getInstance();
 	private Response response;
 	private ValidatableResponse json;
 	private RequestSpecification request;
@@ -37,11 +41,13 @@ public class BookStepDefinitions {
 		//what you give in param completely depends on the parameters Service is expecting
 		//if parameters won't match then service fails
 		
+		
 	}
 
 	@When("a user retrieves the book by isbn")
 	public void retrievevBookWithIsbn(){
-		response = request.relaxedHTTPSValidation().when().get(ENDPOINT_GET_BOOK_BY_ISBN);
+		response = request.relaxedHTTPSValidation().when().get(config.getProperty("bookSearch"));
+		Hooks.scenario.write("Response received is \n"+response.asString());
 		System.out.println("response: " + response.prettyPrint());
 		
 		/** relaxedHTTPSvalidation is to avoid SSL Handshake failures
@@ -81,7 +87,8 @@ public class BookStepDefinitions {
 	@Given("^user calls webservice for registration$")
 	public void userInitiatesregistration(Map<String,String> requestFileds) throws Throwable {
 		request = given().accept(ContentType.JSON).contentType(ContentType.JSON).body(new JSONObject(requestFileds));
-		System.out.println("Request JSON we are posting is \n"+new JSONObject(requestFileds));
+		Hooks.scenario.write("Request we are posting is \n"+new JSONObject(requestFileds).toString());
+		//System.out.println("Request JSON we are posting is \n"+new JSONObject(requestFileds));
 		//passing whole map in request as JSON Object
 	}
 
@@ -89,6 +96,7 @@ public class BookStepDefinitions {
 	public void userPostsRequestWithInformation() {
 		response = request.relaxedHTTPSValidation().when().post("http://restapi.demoqa.com/customer/register");
 		System.out.println("response: " + response.prettyPrint());
+		Hooks.scenario.write("Response received is \n"+response.asString());
 	}
 	
 	/** demonstration validation can be done by extracting the response to JSON Object
@@ -100,7 +108,7 @@ public class BookStepDefinitions {
 		JSONParser parser = new JSONParser();
 		JSONObject json2 = (JSONObject) parser.parse(response.body().asString());
 		if(json2.containsKey("FaultId")){
-			Assert.assertTrue("Fault string did not match", json2.get("FaultId").equals("User already exists"));
+			Assert.assertTrue("Fault string did not match, expected value: exists, but actual value is "+json2.get("FaultId"), json2.get("FaultId").equals("exists"));
 		}
 	}
 	
@@ -111,6 +119,7 @@ public class BookStepDefinitions {
 	public void userInitiatesCurrencyConverter() {
 	    String myXmlReq = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\"><soapenv:Header/><soapenv:Body><tem:GetCurrencies/></soapenv:Body></soapenv:Envelope>";
 	    request = given().request().body(myXmlReq).headers("SOAPAction", "http://tempuri.org/GetCurrencies", "Content-Type", "text/xml");
+	    Hooks.scenario.write("Request we are posting is \n"+myXmlReq);
 	    //SOAP Action can be derived from WSDL
 	}
 
@@ -118,6 +127,7 @@ public class BookStepDefinitions {
 	public void userPostsForCurrencyRequests() {
 		response = request.relaxedHTTPSValidation().when().post("http://currencyconverter.kowabunga.net/converter.asmx");
 		System.out.println(response.asString());
+		Hooks.scenario.write("Response received is \n"+response.asString());
 	}
 
 	@Then("^response should have all currencies$")

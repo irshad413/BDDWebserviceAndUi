@@ -1,8 +1,11 @@
 package StepDefinitions;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -17,10 +20,11 @@ public class SearchFunctionality extends SeleniumFunctions{
 	
 	@Given("^I navigate to \"([^\"]*)\" Url$")
 	public void i_navigate_to_Url(String arg1) throws Exception {
-		createWebDriver("Chrome");
+		createWebDriver(config.getProperty("browser"));
 		driver.get(arg1);
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "Given");
+		Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
 	}
 
 	@When("^I enter \"([^\"]*)\" in Search$")
@@ -29,7 +33,7 @@ public class SearchFunctionality extends SeleniumFunctions{
 		driver.findElement(By.xpath("//*[@id=\"lst-ib\"]")).submit();
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "When");
-		
+		Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
 	}
 	
 	@Then("^search results should be displayed$")
@@ -39,6 +43,7 @@ public class SearchFunctionality extends SeleniumFunctions{
 		we.getText().contains("results");
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "Then");
+		Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
 	}
 	
 	@And("^I choose images in results$")
@@ -47,6 +52,7 @@ public class SearchFunctionality extends SeleniumFunctions{
 		Thread.sleep(3000);
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "When");
+		Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
 		driver.quit();
 		
 	}

@@ -5,15 +5,19 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import StepDefinitions.Hooks;
+import Utils.Config;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 
 public class SeleniumFunctions{
+	public static Config config = Config.getInstance();
 	public static WebDriver driver = null;
 	public static WebDriverWait waitVar = null;
 	
@@ -60,11 +64,11 @@ public class SeleniumFunctions{
 	public void isHomePageDisplayed(){
 		//waitVar.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Log In/Sign Up")));	
 	}
-	
+	//Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
 	public void takeScreenshot(String windowHandle, WebDriver driver, String outputFilePath, String step){
 		try{
 			driver.switchTo().window(windowHandle);
-			File image = ((ChromeDriver) driver).getScreenshotAs(OutputType.FILE);
+			File image = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(image, new File(outputFilePath+"\\"+step+".jpg"));
 		}catch(Exception e){
 			e.printStackTrace();

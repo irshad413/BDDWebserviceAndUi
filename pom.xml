@@ -135,6 +135,7 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>testNg.xml</suiteXmlFile>
 					</suiteXmlFiles>
+					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
 			<plugin>

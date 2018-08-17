@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import Utils.Config;
 import Utils.XlUtil;
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.CucumberFeatureWrapper;
@@ -32,6 +33,7 @@ import cucumber.api.testng.TestNGCucumberRunner;
                 "rerun:target/cucumber-reports/rerun.txt"
         })
 public class TestNgTestRunner {
+	private Config config = Config.getInstance();
 	private static List<LinkedHashMap<String,String>> dataFromExcel = null;
 	private TestNGCucumberRunner testNGCucumberRunner;
 	private static TestNgTestRunner tsRunner;
@@ -63,7 +65,7 @@ public class TestNgTestRunner {
     public static void readInputData() throws Exception{
     	//reading data excel sheet from resources if any present
     	//to be used for future purpose when decided to pass data in excel
-    	File testDataFile = new File(TestNgTestRunner.class.getClassLoader().getResource("testData.xlsx").toExternalForm());
+    	File testDataFile = new File(TestNgTestRunner.class.getClassLoader().getResource(Config.getInstance().getProperty("excelWorkbook")).toExternalForm());
     	String path = testDataFile.getAbsolutePath();
     	if(testDataFile.exists()){
     		dataFromExcel = new XlUtil().readExcel(path);
