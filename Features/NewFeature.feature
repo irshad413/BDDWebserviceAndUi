@@ -5,3 +5,4 @@ Feature:
     Given I am editing new story
     When I click on save
     Then feature file should be uploaded to GitHub
+	And I added a new line
