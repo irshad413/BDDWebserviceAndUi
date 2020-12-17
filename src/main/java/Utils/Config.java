@@ -15,7 +15,7 @@ public class Config {
 		}
 		return config;
 	}
-	
+	//Added new code comment
 	//private constructor for loading properties
 	private Config(){
 		Properties prop = new Properties();
