@@ -12,20 +12,3 @@ Feature: Sample test for Webservices with rest-assured, integrating Cucumber
 	| items.volumeInfo.title 					| Steve Jobs			|
 	| items.volumeInfo.publisher 				| Simon and Schuster	|   
 	| items.volumeInfo.pageCount 				| 630					|
-	
-#another test, POST method for Rest API using DemoQa free API
-  Scenario: User tries to register on DemoQA dummy API
-	Given user calls webservice for registration
-	|FirstName	| Abram123	|
-	|LastName	| Pentapati	|
-	|UserName	| James007	|
-	|Password	| 123456	|
-	|Email		| AbramPentapati@gmail.com	|
-	When user posts a request with information
-	Then error message should be recieved
-
-#another test, using SOAP API. One thing user should know is SOAP API will mostly have POST method alone
-  Scenario: User wants to list all currencies available
-	Given user has a webservice for currency converter
-	When user tries to retrieve all currencies
-	Then response should have all currencies

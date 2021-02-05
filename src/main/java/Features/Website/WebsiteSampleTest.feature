@@ -12,6 +12,6 @@ Feature: Google search demonstration using Selenium
 	Then search results should be displayed
 	And Exit the browser
 	Examples:
-	|searchUrl					|word		|
-	|https://www.google.co.in/	|cucumber	|
-	|https://www.google.co.in/	|Selenium	|
+	|searchUrl					|word				|
+	|https://www.google.co.in/	|cucumber BDD		|
+	|https://www.google.co.in/	|Selenium framework	|

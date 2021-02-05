@@ -29,8 +29,8 @@ public class SearchFunctionality extends SeleniumFunctions{
 
 	@When("^I enter \"([^\"]*)\" in Search$")
 	public void i_enter_in_Search(String arg1) {
-		driver.findElement(By.xpath("//*[@id=\"lst-ib\"]")).sendKeys(arg1);
-		driver.findElement(By.xpath("//*[@id=\"lst-ib\"]")).submit();
+		driver.findElement(By.xpath("//input[@title='Search']")).sendKeys(arg1);
+		driver.findElements(By.xpath("//input[@value='Google Search']")).get(0).submit();
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "When");
 		Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
@@ -39,7 +39,7 @@ public class SearchFunctionality extends SeleniumFunctions{
 	@Then("^search results should be displayed$")
 	public void search_results_should_be_displayed() {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
-		WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"resultStats\"]")));
+		WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"result-stats\"]")));
 		we.getText().contains("results");
 		String windowHandle = driver.getWindowHandle();
 		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "Then");
@@ -48,10 +48,10 @@ public class SearchFunctionality extends SeleniumFunctions{
 	
 	@And("^I choose images in results$")
 	public void i_choose_images_in_results() throws Exception {
-		driver.findElement(By.xpath("//*[@id=\"hdtb-msb-vis\"]/div[2]/a")).click();
+		driver.findElement(By.xpath("//a[text()='Images']")).click();
 		Thread.sleep(3000);
 		String windowHandle = driver.getWindowHandle();
-		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "When");
+		new SeleniumFunctions().takeScreenshot(windowHandle, driver, path, "Then");
 		Hooks.scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
 		driver.quit();
 		

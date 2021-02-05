@@ -5,10 +5,11 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.github.bonigarcia.wdm.ChromeDriverManager;
-import io.github.bonigarcia.wdm.FirefoxDriverManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.bonigarcia.wdm.config.DriverManagerType;
 
 public class SeleniumFactory {
 	private static WebDriver mdriver;
@@ -26,13 +27,14 @@ public class SeleniumFactory {
 	protected WebDriver getWebDriver(String webDriverType, long defaultTimeOut) throws Exception{		
 		switch(webDriverType){
 		case "Chrome":
-			//System.setProperty("webdriver.chrome.driver", TestNgTestRunner.class.getClassLoader().getResource("chromedriver.exe").toExternalForm());
-			ChromeDriverManager.getInstance().setup();
+			//WebDriverManager.getInstance(DriverManagerType.CHROME).useMirror().forceDownload().clearDriverCache().setup();
+			WebDriverManager.getInstance(DriverManagerType.CHROME).setup();
 			mdriver = new ChromeDriver();
 			mdriver.manage().timeouts().implicitlyWait(defaultTimeOut, TimeUnit.SECONDS);
 			break;
 		case "FireFox":
-			FirefoxDriverManager.getInstance().setup();
+			//WebDriverManager.getInstance(DriverManagerType.FIREFOX).useMirror().forceDownload().clearDriverCache().setup();
+			WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
 			mdriver = new FirefoxDriver();
 			mdriver.manage().timeouts().implicitlyWait(defaultTimeOut, TimeUnit.SECONDS);
 			break;

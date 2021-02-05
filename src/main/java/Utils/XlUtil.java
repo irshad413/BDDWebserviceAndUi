@@ -9,9 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -49,7 +53,7 @@ public class XlUtil {
 						cell = (XSSFCell) cells.next();
 						header.add(cell.getStringCellValue());
 					}else if(i<header.size()){
-						cell = row.getCell(i, row.CREATE_NULL_AS_BLANK);
+						cell = row.getCell(i, MissingCellPolicy.CREATE_NULL_AS_BLANK);
 						String column = cell.getStringCellValue();
 						rowDataMap.put(header.get(dataColumnIndex), column);
 					}else{
@@ -123,10 +127,13 @@ public class XlUtil {
 	
 	private static CellStyle setCellStyleForOutput(XSSFWorkbook excelWbook, XSSFSheet excelWsheet) {
 		CellStyle cellStyle = excelWbook.createCellStyle();
-		cellStyle.setBorderTop((short) 6);
-		cellStyle.setBorderLeft((short) 6);
-		cellStyle.setBorderRight((short) 6);
-		cellStyle.setBorderBottom((short) 6);
+		cellStyle.setBorderBottom(BorderStyle.THICK);
+		cellStyle.setBorderTop(BorderStyle.THICK);
+		cellStyle.setBorderLeft(BorderStyle.THICK);
+		cellStyle.setBorderRight(BorderStyle.THICK);
+		cellStyle.setBorderBottom(BorderStyle.THICK);
+		cellStyle.setAlignment(HorizontalAlignment.LEFT);
+		cellStyle.setVerticalAlignment(VerticalAlignment.TOP);
 		cellStyle.setWrapText(true);
 		
 		return cellStyle;
